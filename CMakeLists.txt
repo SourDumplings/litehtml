@@ -190,6 +190,13 @@ install(TARGETS ${PROJECT_NAME}
 	LIBRARY DESTINATION lib${LIB_SUFFIX} COMPONENT libraries
 	PUBLIC_HEADER DESTINATION include/litehtml
 )
+
+if (MSVC AND ${CMAKE_BUILD_TYPE} MATCHES "Debug")
+	# Install .pdb files if using MSVC
+	message("Installing pdb file...")
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Debug/${PROJECT_NAME}.pdb DESTINATION lib${LIB_SUFFIX} CONFIGURATIONS Debug)
+endif()
+
 install(FILES cmake/litehtmlConfig.cmake DESTINATION lib${LIB_SUFFIX}/cmake/litehtml)
 install(EXPORT litehtmlTargets FILE litehtmlTargets.cmake DESTINATION lib${LIB_SUFFIX}/cmake/litehtml)
 

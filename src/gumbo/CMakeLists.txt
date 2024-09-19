@@ -82,3 +82,9 @@ install(TARGETS ${PROJECT_NAME}
     PUBLIC_HEADER DESTINATION include/gumbo
 )
 install(EXPORT gumbo FILE gumboConfig.cmake DESTINATION lib${LIB_SUFFIX}/cmake/gumbo)
+
+if (MSVC AND ${CMAKE_BUILD_TYPE} MATCHES "Debug")
+	# Install .pdb files if using MSVC
+	message("Installing pdb file...")
+    install(FILES ${CMAKE_BINARY_DIR}/lib/${PROJECT_NAME}.pdb DESTINATION lib${LIB_SUFFIX} CONFIGURATIONS Debug)
+endif()
