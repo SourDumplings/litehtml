@@ -157,12 +157,13 @@ if (MSVC)
 	# warning level 4
 	add_compile_options(/W4)
 	add_compile_options(/permissive- /utf-8)
+	add_library(${PROJECT_NAME} STATIC ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
 else()
 	# additional warnings
 	add_compile_options(-Wall -Wextra -Wpedantic)
+	add_library(${PROJECT_NAME} SHARED ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
 endif()
 
-add_library(${PROJECT_NAME} ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

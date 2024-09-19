@@ -9,53 +9,58 @@ set(PROJECT_MAJOR 0)
 set(PROJECT_MINOR 0)
 
 set(SOURCE_GUMBO
-    attribute.c
-    char_ref.c
-    error.c
-    parser.c
-    string_buffer.c
-    string_piece.c
-    tag.c
-    tokenizer.c
-    utf8.c
-    util.c
-    vector.c
+    ${PROJECT_SOURCE_DIR}/attribute.c
+    ${PROJECT_SOURCE_DIR}/char_ref.c
+    ${PROJECT_SOURCE_DIR}/error.c
+    ${PROJECT_SOURCE_DIR}/parser.c
+    ${PROJECT_SOURCE_DIR}/string_buffer.c
+    ${PROJECT_SOURCE_DIR}/string_piece.c
+    ${PROJECT_SOURCE_DIR}/tag.c
+    ${PROJECT_SOURCE_DIR}/tokenizer.c
+    ${PROJECT_SOURCE_DIR}/utf8.c
+    ${PROJECT_SOURCE_DIR}/util.c
+    ${PROJECT_SOURCE_DIR}/vector.c
 )
 
 set(HEADER_GUMBO
-        include/gumbo/attribute.h
-        include/gumbo/char_ref.h
-        include/gumbo/error.h
-        include/gumbo.h
-        include/gumbo/insertion_mode.h
-        include/gumbo/parser.h
-        include/gumbo/string_buffer.h
-        include/gumbo/string_piece.h
-        include/gumbo/tag_enum.h
-        include/gumbo/tag_gperf.h
-        include/gumbo/tag_sizes.h
-        include/gumbo/tag_strings.h
-        include/gumbo/token_type.h
-        include/gumbo/tokenizer.h
-        include/gumbo/tokenizer_states.h
-        include/gumbo/utf8.h
-        include/gumbo/util.h
-        include/gumbo/vector.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/attribute.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/char_ref.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/error.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/insertion_mode.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/parser.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/string_buffer.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/string_piece.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tag_enum.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tag_gperf.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tag_sizes.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tag_strings.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/token_type.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tokenizer.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/tokenizer_states.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/utf8.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/util.h
+    ${PROJECT_SOURCE_DIR}/include/gumbo/vector.h
 )
 
-set(PROJECT_LIB_VERSION ${PROJECT_MAJOR}.${PROJECT_MINOR}.0)
+set(PROJECT_LIB_VERSION ${PROJECT_MAJOR}.${PROJECT_MINOR}.${PROJECT_PATCH})
 set(PROJECT_SO_VERSION ${PROJECT_MAJOR})
 
 if (MSVC)
-	add_compile_options(/wd4244 /wd4267)
+    add_compile_options(/wd4244 /wd4267)
+    add_library(${PROJECT_NAME} STATIC ${SOURCE_GUMBO})
+else()
+    add_library(${PROJECT_NAME} SHARED ${SOURCE_GUMBO})
 endif()
 
-add_library(${PROJECT_NAME} ${SOURCE_GUMBO})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     C_STANDARD 99
     PUBLIC_HEADER "${HEADER_GUMBO}"
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 if (MSVC)
