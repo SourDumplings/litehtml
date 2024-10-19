@@ -23,34 +23,34 @@ set(SOURCE_GUMBO
 )
 
 set(HEADER_GUMBO
-        include/gumbo/attribute.h
-        include/gumbo/char_ref.h
-        include/gumbo/error.h
-        include/gumbo.h
-        include/gumbo/insertion_mode.h
-        include/gumbo/parser.h
-        include/gumbo/string_buffer.h
-        include/gumbo/string_piece.h
-        include/gumbo/tag_enum.h
-        include/gumbo/tag_gperf.h
-        include/gumbo/tag_sizes.h
-        include/gumbo/tag_strings.h
-        include/gumbo/token_type.h
-        include/gumbo/tokenizer.h
-        include/gumbo/tokenizer_states.h
-        include/gumbo/utf8.h
-        include/gumbo/util.h
-        include/gumbo/vector.h
+    include/gumbo/attribute.h
+    include/gumbo/char_ref.h
+    include/gumbo/error.h
+    include/gumbo.h
+    include/gumbo/insertion_mode.h
+    include/gumbo/parser.h
+    include/gumbo/string_buffer.h
+    include/gumbo/string_piece.h
+    include/gumbo/tag_enum.h
+    include/gumbo/tag_gperf.h
+    include/gumbo/tag_sizes.h
+    include/gumbo/tag_strings.h
+    include/gumbo/token_type.h
+    include/gumbo/tokenizer.h
+    include/gumbo/tokenizer_states.h
+    include/gumbo/utf8.h
+    include/gumbo/util.h
+    include/gumbo/vector.h
 )
 
 set(PROJECT_LIB_VERSION ${PROJECT_MAJOR}.${PROJECT_MINOR}.0)
 set(PROJECT_SO_VERSION ${PROJECT_MAJOR})
 
 if (MSVC)
-	add_compile_options(/wd4244 /wd4267)
+    add_compile_options(/wd4244 /wd4267)
 endif()
 
-add_library(${PROJECT_NAME} ${SOURCE_GUMBO})
+add_library(${PROJECT_NAME} STATIC ${SOURCE_GUMBO})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -67,6 +67,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 target_include_directories(${PROJECT_NAME} PRIVATE include/gumbo)
+
+# Set output directories
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Debug
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release
+)
 
 # install and export
 install(TARGETS ${PROJECT_NAME}
