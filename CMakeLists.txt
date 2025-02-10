@@ -162,7 +162,10 @@ else()
 	add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-add_library(${PROJECT_NAME} ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
+# 生成静态库
+add_library(${PROJECT_NAME} STATIC ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
+# 如果需要生成动态库，请使用以下行替换上面一行
+# add_library(${PROJECT_NAME} SHARED ${HEADER_LITEHTML} ${SOURCE_LITEHTML})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -50,7 +50,8 @@ if (MSVC)
 	add_compile_options(/wd4244 /wd4267)
 endif()
 
-add_library(${PROJECT_NAME} ${SOURCE_GUMBO})
+# add_library(${PROJECT_NAME} ${SOURCE_GUMBO})
+add_library(${PROJECT_NAME} STATIC ${SOURCE_GUMBO})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_LIB_VERSION} SOVERSION ${PROJECT_SO_VERSION})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -67,6 +68,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 target_include_directories(${PROJECT_NAME} PRIVATE include/gumbo)
+
+# Set output directories
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Debug
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release
+)
 
 # install and export
 install(TARGETS ${PROJECT_NAME}
